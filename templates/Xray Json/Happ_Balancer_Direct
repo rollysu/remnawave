@@ -1,0 +1,202 @@
+{
+  "dns": {
+    "servers": [
+      "https://cloudflare-dns.com/dns-query"
+    ],
+    "queryStrategy": "UseIPv4"
+  },
+  "log": {
+    "loglevel": "warning"
+  },
+  "routing": {
+    "rules": [
+      {
+        "port": 443,
+        "network": "udp",
+        "outboundTag": "block"
+      },
+      {
+        "ip": [
+          "geoip:telegram",
+          "geoip:facebook",
+          "geoip:twitter",
+          "geoip:netflix",
+          "35.213.129.2",
+          "35.213.130.216",
+          "35.213.130.217",
+          "35.213.130.27",
+          "35.213.131.78",
+          "35.213.133.191",
+          "35.213.135.56",
+          "35.213.136.207",
+          "35.213.136.41",
+          "35.213.139.79",
+          "35.213.142.228",
+          "35.213.142.249",
+          "35.213.143.38",
+          "35.213.145.124",
+          "35.213.145.149",
+          "35.213.146.200",
+          "35.213.149.115",
+          "35.213.149.32",
+          "35.213.149.99",
+          "35.213.150.163",
+          "35.213.150.41",
+          "35.213.152.13",
+          "35.213.153.185",
+          "35.213.160.90",
+          "35.213.162.61",
+          "35.213.163.235",
+          "35.213.164.163",
+          "35.213.165.102",
+          "35.213.165.33",
+          "35.213.167.165",
+          "35.213.168.191",
+          "35.213.169.179",
+          "35.213.170.10",
+          "35.213.172.159",
+          "35.213.173.1",
+          "35.213.176.117",
+          "35.213.177.116",
+          "35.213.177.119",
+          "35.213.181.44",
+          "35.213.181.71",
+          "35.213.182.222",
+          "35.213.183.188",
+          "35.213.185.36",
+          "35.213.188.188"
+        ],
+        "balancerTag": "balancer"
+      },
+      {
+        "domain": [
+          "geosite:telegram",
+          "geosite:youtube",
+          "geosite:openai",
+          "geosite:twitter",
+          "geosite:spotify",
+          "geosite:netflix",
+          "geosite:discord",
+          "geosite:linguee",
+          "geosite:github",
+          "geosite:tiktok",
+          "geosite:category-porn",
+          "geosite:google-gemini",
+          "geosite:supercell",
+          "geosite:roblox",
+          "geosite:rutracker",
+          "geosite:deviantart",
+          "geosite:protonmail",
+          "geosite:cloudflare",
+          "geosite:anthropic",
+          "geosite:meta",
+          "domain:nexusmods.com",
+          "domain:nnmclub.to",
+          "domain:nnmstatic.win",
+          "domain:speedtest.net",
+          "domain:notfans.net",
+          "domain:wixmp.com"
+        ],
+        "balancerTag": "balancer"
+      },
+      {
+        "network": "tcp,udp",
+        "outboundTag": "direct"
+      }
+    ],
+    "balancers": [
+      {
+        "tag": "balancer",
+        "selector": [
+          "proxy"
+        ],
+        "strategy": {
+          "type": "leastLoad",
+          "settings": {
+            "maxRTT": "1s",
+            "expected": 2,
+            "baselines": [
+              "1s"
+            ],
+            "tolerance": 0.01
+          }
+        },
+        "fallbackTag": "direct"
+      }
+    ],
+    "domainStrategy": "IPIfNonMatch"
+  },
+  "inbounds": [
+    {
+      "tag": "socks",
+      "port": 10808,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "settings": {
+        "udp": true,
+        "auth": "noauth",
+        "userLevel": 8
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    },
+    {
+      "tag": "http",
+      "port": 10809,
+      "listen": "127.0.0.1",
+      "protocol": "http",
+      "settings": {
+        "userLevel": 8
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole"
+    }
+  ],
+  "remnawave": {
+    "injectHosts": [
+      {
+        "selector": {
+          "type": "uuids",
+          "values": [
+            ""
+          ]
+        },
+        "tagPrefix": "proxy"
+      }
+    ]
+  },
+  "burstObservatory": {
+    "pingConfig": {
+      "timeout": "3s",
+      "interval": "1m",
+      "sampling": 1,
+      "destination": "http://www.gstatic.com/generate_204",
+      "connectivity": ""
+    },
+    "subjectSelector": [
+      "proxy"
+    ]
+  }
+}
