@@ -95,7 +95,10 @@
           "domain:nnmstatic.win",
           "domain:speedtest.net",
           "domain:notfans.net",
-          "domain:wixmp.com"
+          "domain:wixmp.com",
+          "domain:soundcloud.com",
+          "domain:soundcloud.cloud",
+          "domain:sndcdn.com"
         ],
         "outboundTag": "proxy"
       },
