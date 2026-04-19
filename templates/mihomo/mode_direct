@@ -918,6 +918,9 @@ rule-providers:
       - DOMAIN-SUFFIX,emptymirrors.com
       - DOMAIN-SUFFIX,nnmclub.to
       - DOMAIN-SUFFIX,wixmp.com
+      - DOMAIN-SUFFIX,soundcloud.cloud
+      - DOMAIN-SUFFIX,soundcloud.com
+      - DOMAIN-SUFFIX,sndcdn.com
     behavior: classical
 
   #DIRECT-APPS
